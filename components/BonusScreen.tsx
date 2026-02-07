@@ -51,7 +51,7 @@ const BonusScreen: React.FC<BonusScreenProps> = ({ bonuses }) => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto py-12 px-6">
+    <div className="max-w-6xl mx-auto py-12 px-6 text-left">
       <div className="mb-12 text-center">
         <h1 className="text-4xl font-serif text-slate-900 mb-4">Materiais <span className="text-indigo-600">Complementares & VIP</span></h1>
         <p className="text-lg text-slate-600 max-w-2xl mx-auto">
@@ -61,7 +61,8 @@ const BonusScreen: React.FC<BonusScreenProps> = ({ bonuses }) => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {bonuses.map((bonus) => {
-          const isLocked = bonus.requiresPassword && !unlockedIds.has(bonus.id);
+          // Correção do erro TS: Forçando o resultado para booleano com !!
+          const isLocked = !!(bonus.requiresPassword && !unlockedIds.has(bonus.id));
           const isAttempting = showInputFor === bonus.id;
           
           return (
@@ -136,7 +137,6 @@ const BonusScreen: React.FC<BonusScreenProps> = ({ bonuses }) => {
                     href={bonus.downloadUrl || '#'} 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    download={bonus.downloadUrl && bonus.downloadUrl !== '#' ? true : undefined}
                     className="flex items-center justify-between w-full py-3 px-4 bg-slate-50 text-indigo-600 font-bold rounded-xl hover:bg-indigo-600 hover:text-white transition-all group-hover:bg-indigo-600 group-hover:text-white"
                   >
                     <span className="flex items-center">
